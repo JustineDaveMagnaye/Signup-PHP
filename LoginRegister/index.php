@@ -1,10 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,9 +39,33 @@ button:hover {
 
 <div class="container">
   <h2>Welcome, User!</h2>
+  <?php
+  session_start();
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $database = "firstconnection";
+  $conn = new mysqli($servername, $username, $password, $database);
+  $emaily = $_SESSION['email'];
+  $check_query = "SELECT * FROM student_information WHERE email='$emaily'";
+  $run_query = mysqli_query($conn, $check_query);
+  while($row = mysqli_fetch_array($run_query)) {
+    echo $row['student_id'] . "<br>";
+    echo $row['last_name'] . "<br>";
+    echo $row['first_name'] . "<br>";
+    echo $row['middle_name'] . "<br>";
+    echo $row['address'] . "<br>";
+    echo $row['gender'] . "<br>";
+    echo $row['contact_no'] . "<br>";
+    echo $row['email'] . "<br>";
+    echo $row['birthdate'] . "<br>";
+    echo $row['age'] . "<br>";
+    echo $row['religion'] . "<br>";
+   }
 
-  <button onclick="window.location.href='edit_profile.php'">Edit Profile</button>
-  <button onclick="window.location.href='logout.php'">Logout</button>
+  ?>
+  <button onclick="window.location.href='http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=firstconnection&table=student_information'">Edit Profile</button>
+  <button onclick="window.location.href='login.php'">Logout</button>
 </div>
 
 </body>

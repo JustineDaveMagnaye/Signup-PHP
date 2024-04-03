@@ -19,15 +19,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $studid = $_POST['student_id'];
+    $lname = $_POST['lname'];
+    $fname = $_POST['fname'];
+    $mname = $_POST['mname'];
+    $address = $_POST['address'];
+    $gender = $_POST['gender'];
+    $contact = $_POST['contact_no'];
+    $email = $_POST['email'];
+    $birthday = $_POST['birthday'];
+    $age = $_POST['age'];
+    $religion = $_POST['religion'];
+    $check_queryy = "SELECT * FROM student_information";
+    $resulty = $conn->query($check_queryy);
     $check_query = "SELECT * FROM users WHERE username='$username' OR email='$email'";
     $result = $conn->query($check_query);
 
-    if ($result->num_rows > 0) {
+    if ($result->num_rows > 0 && $resulty->num_rows > 0) {
         echo "User with this username or email already exists.";
     } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $insert_query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
-
+        $insert_query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
+        $insert = "INSERT INTO student_information (Id, Student_Id, Last_Name, First_Name, Middle_Name, Address, Gender, Contact_No, Email, Birthdate, Age, Religion) VALUES ('','$studid','$lname','$fname','$mname','$address','$gender','$contact','$email','$birthday','$age','$religion')";
+        mysqli_query($conn, $insert);
         if ($conn->query($insert_query) === TRUE) {
             $_SESSION['user_id'] = $conn->insert_id; 
             header("Location: index.php"); 

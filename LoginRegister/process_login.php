@@ -19,20 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT * FROM users WHERE username='$username'";
+    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows == 1) {
+    if (mysqli_num_rows($result) != 0) {
         $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['email'] = $row['email'];
             header("Location: index.php");
-            exit();
-        } else {
-            $_SESSION['login_error'] = "Invalid username or password.";
-            header("Location: login.php");
-            exit();
-        }
+       
     } else {
         $_SESSION['login_error'] = "Invalid username or password.";
         header("Location: login.php");
