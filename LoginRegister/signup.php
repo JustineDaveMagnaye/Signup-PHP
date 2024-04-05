@@ -7,7 +7,11 @@
 <style>
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
+  background-color: #f8f8f8;
+  background-image: url("rc.jpg");
+  background-size: cover;  
+  background-repeat: no-repeat;
+  background-position: center center
   color: #333;
   text-align: center;
 }

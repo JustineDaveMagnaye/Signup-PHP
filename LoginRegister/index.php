@@ -7,18 +7,37 @@
 <style>
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  color: #333;
-  text-align: center;
+  background-color: #f8f8f8;
+  background-image: url("rc.jpg");
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-  max-width: 500px;
+  max-width: 1000px;
   margin: 50px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #b30000;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
 }
 
 button {
@@ -28,11 +47,13 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 button:hover {
   background-color: #990000;
 }
+
 </style>
 </head>
 <body>
@@ -49,22 +70,30 @@ button:hover {
   $emaily = $_SESSION['email'];
   $check_query = "SELECT * FROM student_information WHERE email='$emaily'";
   $run_query = mysqli_query($conn, $check_query);
-  while($row = mysqli_fetch_array($run_query)) {
-    echo $row['student_id'] . "<br>";
-    echo $row['last_name'] . "<br>";
-    echo $row['first_name'] . "<br>";
-    echo $row['middle_name'] . "<br>";
-    echo $row['address'] . "<br>";
-    echo $row['gender'] . "<br>";
-    echo $row['contact_no'] . "<br>";
-    echo $row['email'] . "<br>";
-    echo $row['birthdate'] . "<br>";
-    echo $row['age'] . "<br>";
-    echo $row['religion'] . "<br>";
-   }
-
-  ?>
-  <button onclick="window.location.href='http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=firstconnection&table=student_information'">Edit Profile</button>
+  if (mysqli_num_rows($run_query) > 0) {
+    echo "<table>";
+    echo "<tr><th>Student ID</th><th>Last Name</th><th>First Name</th><th>Middle Name</th><th>Address</th><th>Gender</th><th>Contact No</th><th>Email</th><th>Birthdate</th><th>Age</th><th>Religion</th></tr>";
+    while($row = mysqli_fetch_array($run_query)) {
+      echo "<tr>";
+      echo "<td>" . $row['student_id'] . "</td>";
+      echo "<td>" . $row['last_name'] . "</td>";
+      echo "<td>" . $row['first_name'] . "</td>";
+      echo "<td>" . $row['middle_name'] . "</td>";
+      echo "<td>" . $row['address'] . "</td>";
+      echo "<td>" . $row['gender'] . "</td>";
+      echo "<td>" . $row['contact_no'] . "</td>";
+      echo "<td>" . $row['email'] . "</td>";
+      echo "<td>" . $row['birthdate'] . "</td>";
+      echo "<td>" . $row['age'] . "</td>";
+      echo "<td>" . $row['religion'] . "</td>";
+      echo "</tr>";
+    }
+    echo "</table>";
+  } else {
+    echo "No information found.";
+  }
+  ?><br>
+  <button onclick="window.location.href='edit_profile.php'">Edit Profile</button>
   <button onclick="window.location.href='login.php'">Logout</button>
 </div>
 
